@@ -1,0 +1,23 @@
+<p>                    String tag = "";
+                    boolean isTag = false;
+                    for (int j = TAG<em>MAX</em>LENGTH; j &gt; 0; j--) {
+                        if (i + j &gt; buf.length()) {
+                            continue;
+                        }
+                        tag = buf.substring(i, i + j);//Проверка, что это особый символ
+                        if (m2hSpecialSymbols.containsKey(tag)) {
+                            inHtml.get(inHtml.size() - 1).append(m2hSpecialSymbols.get(tag));
+                            isTag = true;
+                        } else {
+                            int k = OpenTagNumList.getOrDefault(tag, -1); //Проверка, что это тег
+                            if (k == -1) {
+                                continue;
+                            } else if (k == -2) { //Если к=-2, то мы впервые в параграфе встретили открывающий тег, запоминаем его позицию
+                                OpenTagNumList.put(tag, inHtml.size() - 1);
+                                inHtml.add(new StringBuilder());
+                            } else { //иначе k - позиция тега
+                                String time = m2hOpenTag.get(tag);
+                                inHtml.get(k).append(getOpenTag(time));
+                                inHtml.get(inHtml.size() - 1).append(getClosedTag(time));
+                                OpenTagNumList.put(tag, -2);
+                            }</p>

@@ -1,0 +1,33 @@
+Id //Положили элемент //size b(begin) s(sum)
+st 1 //size b s b
+push 4 //size b s b 4
+add //size b s b=b+4
+st 3 //size b(ложное) s b size
+push 1 //size b s b size i=1 //Первые 2 элемента нам не нужны, опустим их, осталось (s b size i)
+for: //Проверка на конец массива
+	st 0 //s b size i i
+	st 2 //s b size i i size
+	beq else //s b size i
+	push 1 //s b size i 1
+	add //s b size i=i+1
+	//сдвиг b
+	st 2 //s b size i b
+	push 4 //s b size i b 4
+	add //s b size i b=b+4
+	st 4 //s b size i b s
+	//Нам нужны только 4 последних элемента - size i b s
+	//Прибавление следующего элемента к сумме
+	st 1 //size i b s b
+	Id //Положили элемент //size i b s b x
+	st 2 // положили сумму наверх //size i b s b x s
+	add //сложили //size i b s b s=s+x
+	//Возвращаем правильный порядок (s, b, size, i)
+	st 1 //size i b s b s b
+	st 6 //size i b s b s b size
+	st 6 //size i b s b s b size i
+	//Нам нужны только 4 последних элемента, таким образом, корректность сохраняется
+	j for
+else: //имеем s b size i
+	st 3 //s b size i s
+	st 2 //s b size i s size
+	div //s b size i s/size - ответ в верхушке стека.
