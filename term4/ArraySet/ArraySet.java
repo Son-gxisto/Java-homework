@@ -31,6 +31,7 @@ public class ArraySet<E> extends AbstractSet<E> implements SortedSet<E> {
     }
 
     @Override
+    @SuppressWarnings({"unchecked"})
     public boolean contains(Object o) {
         return Collections.binarySearch(elements, (E) o, comparator) >= 0;
     }
@@ -60,9 +61,6 @@ public class ArraySet<E> extends AbstractSet<E> implements SortedSet<E> {
     }
 
     // NOTE: no need to override
-    public String toString() {
-        return elements.toString();
-    }
 
     @Override
     public SortedSet<E> subSet(E fromElement, E toElement) {
@@ -71,8 +69,8 @@ public class ArraySet<E> extends AbstractSet<E> implements SortedSet<E> {
             if (comparator.compare(fromElement, toElement) > 0) {
                 throw new IllegalArgumentException("Wrong element order");
             }
-        } else if (fromElement instanceof Comparable && ((Comparable) fromElement).compareTo(toElement) > 0) {
-            throw new IllegalArgumentException("ERROR: Invalid arguments.");
+        } else if (fromElement.hashCode() > toElement.hashCode()) {
+            throw new IllegalArgumentException("Wrong element order");
         }
         return subSetIndex(find(fromElement), find(toElement));
     }
@@ -104,7 +102,7 @@ public class ArraySet<E> extends AbstractSet<E> implements SortedSet<E> {
         assertEmpty();
         return elements.get(elements.size() - 1);
     }
-
+    /*
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<>();
         Random r = new Random();
@@ -116,5 +114,5 @@ public class ArraySet<E> extends AbstractSet<E> implements SortedSet<E> {
         System.out.println(t.headSet(par).toString());
         System.out.println(t.tailSet(par).toString());
         System.out.println(t.subSet(par - 1, par + 1).toString());
-    }
+    } */
 }
